@@ -1,0 +1,62 @@
+#include<stdio.h>
+int top=-1;
+int max=3;
+int stack[3];
+
+int isempty()
+{
+if(top==-1)
+return 1;
+else 
+return 0;
+}
+int isfull()
+{
+	if(top==max)
+	return 1;
+	else 
+	return 0;
+}
+int peek()
+{
+	return stack[top];
+}
+int pop()
+{
+	int data;
+	if(!isempty())
+	{
+		data=stack[top];
+		top=top-1;
+		return 0;
+	}
+	else
+	printf("Stack is Empty");
+}
+int push(int data)
+{
+	if(!isfull())
+	{
+		top=top+1;
+		stack[top]=data;
+	}
+	else
+	printf("Stack is Full ");
+} 
+int main()
+{
+	
+	push(8);
+	printf("%d",stack[top]);
+    push(9);
+    printf("%d",stack[top]);
+    push(3);
+    printf("%d",stack[top]);
+	push(7);
+	printf("%d",stack[top]);
+	pop();
+	pop();
+	printf("%d ",stack[top]);
+ 
+  return 0;  
+}
