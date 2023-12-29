@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 50 // Maximum size of the queue
+
+int queue[MAX]; // Array to store the queue elements
+int front = -1; // Index of the front element
+int rear = -1; // Index of the rear element
+
+// Function to check if the queue is empty
+int isEmpty() {
+    return front == -1;
+}
+
+// Function to check if the queue is full
+int isFull() {
+    return rear == MAX - 1;
+}
+
+// Function to add an element to the queue
+void enqueue(int x) {
+    if (isFull()) {
+        printf("Queue is full\n");
+    } else {
+        if (isEmpty()) {
+            front = 0; // Set the front to 0 if the queue was empty
+        }
+        rear++; // Increment the rear index
+        queue[rear] = x; // Store the element at the rear
+        printf("Enqueued %d\n", x);
+    }
+}
+
+// Function to remove an element from the queue
+int dequeue() {
+    if (isEmpty()) {
+        printf("Queue is empty\n");
+        return -1;
+    } else {
+        int x = queue[front]; // Get the front element
+        front++; // Increment the front index
+        if (front > rear) {
+            front = rear = -1; // Reset the front and rear if the queue becomes empty
+        }
+        printf("Dequeued %d\n", x);
+        return x;
+    }
+}
+
+// Function to display the queue
+void display() {
+    if (isEmpty()) {
+        printf("Queue is empty\n");
+    } else {
+        printf("Queue: ");
+        for (int i = front; i <= rear; i++) {
+            printf("%d ", queue[i]); // Print the queue elements from front to rear
+        }
+        printf("\n");
+    }
+}
+
+// Main function to test the queue operations
+int main() {
+    int choice, x;
+    while (1) {
+        printf("1. Enqueue\n");
+        printf("2. Dequeue\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                printf("Enter the element to enqueue: ");
+                scanf("%d", &x);
+                enqueue(x); // Call the enqueue function
+                break;
+            case 2:
+                dequeue(); // Call the dequeue function
+                break;
+            case 3:
+                display(); // Call the display function
+                break;
+            case 4:
+                exit(0); // Exit the program
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+    return 0;
+}
