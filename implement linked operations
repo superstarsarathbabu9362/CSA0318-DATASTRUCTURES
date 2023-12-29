@@ -1,0 +1,104 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+struct node {
+  int data; // Data part
+  struct node *next; 
+};
+struct node *head = NULL;
+void insert_at_beginning(int value) {
+  struct node *new_node = (struct node *)malloc(sizeof(struct node));
+  if (new_node == NULL) {
+    printf("Memory allocation failed\n");
+    return;
+  }
+  new_node->data = value;
+  new_node->next = head;
+  head = new_node;
+}
+void insert_at_end(int value) {
+  struct node *new_node = (struct node *)malloc(sizeof(struct node));
+  if (new_node == NULL) {
+    printf("Memory allocation failed\n");
+    return;
+  }
+  new_node->data = value;
+  new_node->next = NULL;
+  if (head == NULL) {
+    head = new_node;
+  } else {
+    struct node *current = head;
+    while (current->next != NULL) {
+      current = current->next;
+    }
+    current->next = new_node;
+  }
+}
+void insert_after_node(struct node *prev_node, int value) {
+  if (prev_node == NULL) {
+    printf("The given node cannot be NULL\n");
+    return;
+  }
+  struct node *new_node = (struct node *)malloc(sizeof(struct node));
+  if (new_node == NULL) {
+    printf("Memory allocation failed\n");
+    return;
+  }
+  new_node->data = value;
+  new_node->next = prev_node->next; 
+ 
+  prev_node->next = new_node;
+}
+void delete_at_beginning() {
+  if (head == NULL) {
+    printf("The list is empty\n");
+    return;
+  }
+  struct node *temp = head;
+  head = head->next;
+  free(temp);
+}
+void delete_at_end() {
+  if (head == NULL) {
+    printf("The list is empty\n");
+    return;
+  }
+  if (head->next == NULL) {
+    free(head);
+    head = NULL;
+  } else {
+    struct node *current = head;
+    while (current->next->next != NULL) {
+      current = current->next;
+    }
+    struct node *temp = current->next;
+    current->next = NULL;
+    
+    free(temp);
+  }
+}
+void delete_by_value(int value) {
+  if (head == NULL) {
+    printf("The list is empty\n");
+  }
+    return;
+  if (head->data == value) {
+    struct node *temp = head;
+    head = head->next;
+    free(temp);
+    return;
+  }
+  struct node *current = head;
+  struct node *prev = NULL;
+  while (current != NULL && current->data != value) {
+    prev = current;
+    current = current->next;
+  }
+  if (current == NULL) {
+    printf("The value %d is not found in the list\n", value);
+    return;
+  }
+  struct node *temp = current;
+  prev->next = current->next;
+  free(temp);
+}
