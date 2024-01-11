@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define TABLE_SIZE 10
+
+
+struct HashTable {
+    int* array;
+    int size;
+};
+
+
+struct HashTable* createHashTable(int size) {
+    struct HashTable* table = (struct HashTable*)malloc(sizeof(struct HashTable));
+    table->size = size;
+    table->array = (int*)malloc(sizeof(int) * size);
+
+    
+    for (int i = 0; i < size; i++) {
+        table->array[i] = -1;
+    }
+
+    return table;
+}
+
+
+int hash(int key, int size) {
+    return key % size;
+}
+
+
+void insert(struct HashTable* table, int key) {
+    int index = hash(key, table->size);
+
+   
+    while (table->array[index] != -1) {
+        index = (index + 1) % table->size;
+    }
+
+    table->array[index] = key;
+}
+
+
+void display(struct HashTable* table) {
+    printf("Hash Table: ");
+    for (int i = 0; i < table->size; i++) {
+        printf("%d ", table->array[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    struct HashTable* hashTable = createHashTable(TABLE_SIZE);
+
+    
+    insert(hashTable, 5);
+    insert(hashTable, 25);
+    insert(hashTable, 15);
+    insert(hashTable, 35);
+
+    
+    display(hashTable);
+
+   
+    insert(hashTable, 55);
+    insert(hashTable, 45);
+
+    
+    display(hashTable);
+
+    free(hashTable->array);
+    free(hashTable);
+
+    return 0;
+}
